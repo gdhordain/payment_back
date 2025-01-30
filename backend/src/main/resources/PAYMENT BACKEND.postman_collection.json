@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "2ed197bc-dc96-4a56-a460-b00215df489a",
+		"name": "PAYMENT BACKEND",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "41678345"
+	},
+	"item": [
+		{
+			"name": "createPayment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currency\": \"GBP\",\r\n    \"paymentMethod\": \"PAYPAL\",\r\n    \"paymentStatus\": \"CAPTURED\",\r\n    \"productList\": [\r\n        {\r\n            \"reference\": \"REF33333\",\r\n            \"productName\": \"Product 3\",\r\n            \"quantity\": 4,\r\n            \"price\": 74.99\r\n        },\r\n        {\r\n            \"reference\": \"REF44444\",\r\n            \"productName\": \"Product 4\",\r\n            \"quantity\": 3,\r\n            \"price\": 103.95\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/payment"
+			},
+			"response": []
+		},
+		{
+			"name": "getPaymentById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/payment/679b740b5ada547cc909e45a"
+			},
+			"response": []
+		},
+		{
+			"name": "getAllPayments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/payment"
+			},
+			"response": []
+		},
+		{
+			"name": "updatePaymentStatus",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/payment/679b73c15ada547cc909e459/status?newStatus=AUTHORIZED",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"payment",
+						"679b73c15ada547cc909e459",
+						"status"
+					],
+					"query": [
+						{
+							"key": "newStatus",
+							"value": "AUTHORIZED"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
