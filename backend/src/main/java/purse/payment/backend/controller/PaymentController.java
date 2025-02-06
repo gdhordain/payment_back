@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import purse.payment.backend.enums.PaymentStatus;
 import purse.payment.backend.model.Payment;
 import purse.payment.backend.service.PaymentService;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/payment")
@@ -24,23 +23,24 @@ public class PaymentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Payment createPayment(@RequestBody Payment payment) {
+    public Mono<Payment> createPayment(@RequestBody Payment payment) {
         return paymentService.createPayment(payment);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Payment> getPaymentById(@PathVariable String id) {
-        Optional<Payment> payment = paymentService.getPaymentById(id);
-        return payment.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public Mono<ResponseEntity<Payment>> getPaymentById(@PathVariable String id) {
+        return paymentService.getPaymentById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @GetMapping
-    public List<Payment> getAllPayments() {
+    public Flux<Payment> getAllPayments() {
         return paymentService.getAllPayments();
     }
 
     @PutMapping("/{id}/status")
-    public Payment updatePaymentStatus(@PathVariable String id, @RequestParam PaymentStatus newStatus) {
+    public Mono<Payment> updatePaymentStatus(@PathVariable String id, @RequestParam PaymentStatus newStatus) {
         return paymentService.updatePaymentStatus(id, newStatus);
     }
 }
